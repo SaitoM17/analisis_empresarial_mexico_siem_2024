@@ -1,8 +1,6 @@
 # 📊 Sistema de Información Empresarial Mexicano (SIEM)
 # Análisis Empresaral Mexicano SIEM 2024
 
-Este proyecto realiza un análisis [exploratorio / predictivo / descriptivo] de [tema del proyecto]. El conjunto de datos incluye información sobre [breve descripción del contenido del dataset].
-
 ---
 
 ## 📚 Tabla de Contenidos
@@ -19,7 +17,7 @@ Este proyecto realiza un análisis [exploratorio / predictivo / descriptivo] de 
 
 ## 🎯 Propósito
 
-El objetivo de este proyecto es [objetivo general del análisis], con el fin de [impacto esperado, decisiones que se tomarán, etc.].
+Analizar la distribución y características de las empresas registradas en el Sistema de Información Empresarial Mexicano (SIEM) para obtener insights sobre su localización, tamaño, sector económico predominante y diferencias regionales, usando técnicas estadísticas y visualización de datos.
 
 ---
 
