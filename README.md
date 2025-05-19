@@ -25,25 +25,25 @@ Analizar la distribución y características de las empresas registradas en el S
 
 El conjunto de datos utilizado contiene las siguientes columnas:
 
-- `_id`: [Descripción]
-- `razon_social`: [Descripción]
-- `estado`: [Descripción]
-- `municipio`: [Descripción]
-- `domicilio`: [Descripción]
-- `colonia`: [Descripción]
-- `cp`: [Descripción]
-- `telefono`: [Descripción]
-- `e_mail`: [Descripción]
-- `giro`: [Descripción]
-- `scian`: [Descripción]
-- `rango_de_empleados`: [Descripción]
-- `registrado_por`: [Descripción]
-- `fn_razon_social`: [Descripción]
-- `fn_telefono`: [Descripción]
-- `fn_e_mail`: [Descripción]
-- `fn_giro`: [Descripción]
-- `estado_etq`: [Descripción]
-- `NombreColumna3`: [Descripción]
+- `_id`: Identificador único del registro	
+- `razon_social`: Nombre de la empresa o establecimiento
+- `estado`: Estado de la República Mexicana	
+- `municipio`: Municipio del establecimiento	
+- `domicilio`: Dirección completa	
+- `colonia`: Colonia donde se ubica el establecimiento
+- `cp`: Código postal
+- `telefono`: Teléfono de contacto
+- `e_mail`: Correo electrónico de contacto
+- `giro`: Giro comercial o actividad económica principal
+- `scian`: Código SCIAN correspondiente al giro
+- `rango_de_empleados`: Rango estimado de empleados en el establecimiento
+- `registrado_por`: Organización o cámara que registró el negocio
+- `fn_razon_social`: Nombre comercial final, si aplica
+- `fn_telefono`: Teléfono adicional o actualizado
+- `fn_e_mail`: Correo electrónico adicional o actualizado
+- `fn_giro`: Giro comercial final corregido, si aplica
+- `estado_etq`: Etiqueta o formato estándar del estado (Ej. Estado de México)
+
 
 Fuente: [!Datos.gob]https://www.datos.gob.mx/dataset/sistema_informacion_empresarial_mexicano.
 
