@@ -25,12 +25,27 @@ Analizar la distribución y características de las empresas registradas en el S
 
 El conjunto de datos utilizado contiene las siguientes columnas:
 
-- `NombreColumna1`: [Descripción]
-- `NombreColumna2`: [Descripción]
+- `_id`: [Descripción]
+- `razon_social`: [Descripción]
+- `estado`: [Descripción]
+- `municipio`: [Descripción]
+- `domicilio`: [Descripción]
+- `colonia`: [Descripción]
+- `cp`: [Descripción]
+- `telefono`: [Descripción]
+- `e_mail`: [Descripción]
+- `giro`: [Descripción]
+- `scian`: [Descripción]
+- `rango_de_empleados`: [Descripción]
+- `registrado_por`: [Descripción]
+- `fn_razon_social`: [Descripción]
+- `fn_telefono`: [Descripción]
+- `fn_e_mail`: [Descripción]
+- `fn_giro`: [Descripción]
+- `estado_etq`: [Descripción]
 - `NombreColumna3`: [Descripción]
-- `...`
 
-Fuente: [Nombre de la fuente o “datos simulados/ficticios”].
+Fuente: [!Datos.gob]https://www.datos.gob.mx/dataset/sistema_informacion_empresarial_mexicano.
 
 ---
 
