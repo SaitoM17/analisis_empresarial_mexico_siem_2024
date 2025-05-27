@@ -441,12 +441,12 @@ El intervalo de confianza del 95% para la proporción de empresas pequeñas (0 a
 ---
 
 ## 📈 Conclusiones y Recomendaciones
-- **Insight 1:**El análisis reveló una alta concentración de empresas en ciertas regiones, destacando la importancia de estos núcleos económicos en el país.
-- **Insight 2:**La mayoría de las empresas registradas son microempresas, lo que subraya su papel crucial en la economía nacional y la necesidad de políticas que las apoyen.
-- **Insigt 3:**Existen diferencias notables en la distribución y características de las empresas entre las regiones norte y sur del país, lo que podría reflejar desigualdades en el desarrollo económico.
+- **Insight 1:** El análisis reveló una alta concentración de empresas en ciertas regiones, destacando la importancia de estos núcleos económicos en el país.
+- **Insight 2:** La mayoría de las empresas registradas son microempresas, lo que subraya su papel crucial en la economía nacional y la necesidad de políticas que las apoyen.
+- **Insigt 3:** Existen diferencias notables en la distribución y características de las empresas entre las regiones norte y sur del país, lo que podría reflejar desigualdades en el desarrollo económico.
 
-- **Recomendación:**Implementar programas específicos que fortalezcan a las microempresas, facilitando su acceso a financiamiento, capacitación y mercados.
-- **Recomendación:**Diseñar estrategias que promuevan el desarrollo empresarial en regiones menos favorecidas, equilibrando la distribución de oportunidades económicas.
+- **Recomendación:** Implementar programas específicos que fortalezcan a las microempresas, facilitando su acceso a financiamiento, capacitación y mercados.
+- **Recomendación:** Diseñar estrategias que promuevan el desarrollo empresarial en regiones menos favorecidas, equilibrando la distribución de oportunidades económicas.
 
 
 
@@ -458,8 +458,7 @@ El intervalo de confianza del 95% para la proporción de empresas pequeñas (0 a
 - Pandas
 - Matplotlib
 - Seaborn
-- Jupyter Notebook / Google Colab
-- [Otras herramientas que uses, como Scikit-learn, Plotly, etc.]
+- Jupyter Notebook
 
 ---
 
