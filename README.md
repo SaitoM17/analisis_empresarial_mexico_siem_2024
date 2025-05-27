@@ -227,19 +227,216 @@ df_siem_sin_nulos_duplicados.head(5)
 ```bash
 Numero total de duplicados: 497
 ```
-![alt text](../repórts/figure/image.png)
+![alt text](reports/figures/image.png)
 
-3. **Análisis exploratorio de datos (EDA)**:
-   - [Ej. Distribución, correlaciones, agrupaciones, etc.]
+```python
+print('Filas antes de eliminar duplicados')
+print(f'Filas: {filas_n}')
 
-4. **Visualización de datos**:
-   - Uso de gráficos de barras, líneas, cajas, dispersión y mapas de calor.
+print('\nFilas después de eliminar duplicados')
+df_siem_sin_nulos_sin_duplicados = df_siem_sin_nulos.drop_duplicates()
+filas_n_d,columnas_n_d = df_siem_sin_nulos_sin_duplicados.shape
+print(f'Filas: {filas_n_d}')
 
-5. **Modelado o reportes (opcional)**:
-   - [Si aplica: modelos de ML, clustering, predicciones, etc.]
+# Verificar la filas duplicadas
+filas_dupli = df_siem_sin_nulos_sin_duplicados.duplicated().sum()
+print(f'\nFilas duplicadas: {filas_dupli}')
+```
+```bash
+Filas antes de eliminar duplicados
+Filas: 147523
 
-6. **Conclusiones y recomendaciones**:
-   - Síntesis de hallazgos clave y propuestas de acción.
+Filas después de eliminar duplicados
+Filas: 147026
+
+Filas duplicadas: 0
+```
+La limpieza de la columna 'giro' fue crucial debido a la presencia de datos mal escritos y formatos inconsistentes. Primero, realizamos una exploración para detectar estas irregularidades, revelando entradas como '(Sin Giro)', caracteres sueltos o números sin sentido. Luego, procedimos a corregir estos errores mediante una serie de pasos: se estandarizó el texto a minúsculas y se eliminaron espacios, se identificaron y eliminaron patrones no descriptivos, y finalmente, se agruparon y unificaron términos similares en categorías más coherentes, como 'venta de ropa' o 'servicios de vigilancia', para mejorar la calidad y utilidad de la información.
+```python
+def revisar_giro():
+    sector_razon_social = df_siem_sin_nulos_sin_duplicados.groupby('giro')['razon_social'].count()
+    print(sector_razon_social)
+
+revisar_giro()
+```
+```python
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].astype(str).str.lower().str.strip()
+
+non_descriptive_patterns = [
+        r'^\(sin giro\)$',  
+        r'^[,.\-|\/]+$',    
+        r'^\d+$',           
+        r'^\d{4}-\d{2}-\d{2}$' 
+]
+for pattern in non_descriptive_patterns:
+    df_siem_sin_nulos_sin_duplicados.loc[df_siem_sin_nulos_sin_duplicados['giro'].str.match(pattern, na=False), 'giro'] = np.nan
+
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].apply(lambda x: re.sub(r'^\d{6,}(?:\s|$)|^\d{2}(?:\s|$)|^\d{4}-\d{2}-\d{2}\s?', '', str(x)).strip() if pd.notna(x) else x)
+
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].str.replace(r'[^\w\s]', ' ', regex=True) # Replace most punctuation with space
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].str.replace(r'\s+', ' ', regex=True).str.strip() # Replace multiple spaces with single space
+
+giro_mapping = {.............}
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].replace(giro_mapping)
+
+df_siem_sin_nulos_sin_duplicados['giro'] = df_siem_sin_nulos_sin_duplicados['giro'].fillna('giro desconocido')
+```
+
+Finalmente, el DataFrame limpio se guardó en un nuevo archivo CSV para su posterior uso.
+```python
+df_siem_sin_nulos_sin_duplicados.to_csv('../data/processed/datos_siem_2024.csv', index=False)
+```
+
+***Archivo: 2_lipieza_procesamiento.ipynb***
+
+### **Análisis exploratorio de datos (EDA)**
+La siguiente tabla muestra el recuento de empresas por entidad federativa, proporcionando una visión detallada de la concentración empresarial en el país:
+```bash
+Esatdo                                     Cantidad
+Aguascalientes                                  158
+Baja California                                3344
+Baja California Sur                            1833
+Campeche                                        368
+Chiapas                                        1473
+Chihuahua                                      7611
+Ciudad de México                              28245
+Coahuila de Zaragoza                           4335
+Colima                                          526
+Durango                                        1980
+Guanajuato                                     4812
+Guerrero                                       1009
+Hidalgo                                         997
+Jalisco                                       11786
+Michoacán de Ocampo                            3068
+Morelos                                        1250
+México                                        11072
+Nayarit                                        1711
+Nuevo León                                    18416
+Oaxaca                                          266
+Puebla                                         5038
+Querétaro                                      1042
+Quintana Roo                                   3153
+San Luis Potosí                                1754
+Sinaloa                                        4044
+Sonora                                          688
+Tabasco                                         604
+Tamaulipas                                    10187
+Tlaxcala                                        956
+Veracruz de Ignacio de la Llave                7418
+Yucatán                                        6025
+Zacatecas                                      1857
+```
+![Número de Empresas por Estado](reports/figures/Número%20de%20empresas%20pro%20estado.png)
+
+La siguiente tabla muestra la proporción de empresas por cada estado, permitiendo identificar las principales concentraciones y las regiones con menor densidad empresarial. La Ciudad de México es, por mucho, la entidad con el mayor número de empresas, albergando el 19.21% del total. Nuevo León (12.53%) y Jalisco (8.02%) ocupan el segundo y tercer lugar, respectivamente. En el otro extremo, estados como Aguascalientes (0.11%), Oaxaca (0.18%) y Campeche (0.25%) presentan las proporciones más bajas, indicando una menor actividad empresarial en comparación con el resto del país
+```bash
+--- Proporciones Relativas por Estado ---
+Estado                          Número de Empresas    Porcentaje (%)
+--------------------------------------------------------------------
+Ciudad de México                             28245          19.21%
+Nuevo León                                   18416          12.53%
+Jalisco                                      11786           8.02%
+México                                       11072           7.53%
+Tamaulipas                                   10187           6.93%
+Chihuahua                                     7611           5.18%
+Veracruz de Ignacio de la Llave                7418           5.05%
+Yucatán                                       6025           4.10%
+Puebla                                        5038           3.43%
+Guanajuato                                    4812           3.27%
+Coahuila de Zaragoza                          4335           2.95%
+Sinaloa                                       4044           2.75%
+Baja California                               3344           2.27%
+Quintana Roo                                  3153           2.14%
+Michoacán de Ocampo                           3068           2.09%
+Durango                                       1980           1.35%
+Zacatecas                                     1857           1.26%
+Baja California Sur                           1833           1.25%
+San Luis Potosí                               1754           1.19%
+Nayarit                                       1711           1.16%
+Chiapas                                       1473           1.00%
+Morelos                                       1250           0.85%
+Querétaro                                     1042           0.71%
+Guerrero                                      1009           0.69%
+Hidalgo                                        997           0.68%
+Tlaxcala                                       956           0.65%
+Sonora                                         688           0.47%
+Tabasco                                        604           0.41%
+Colima                                         526           0.36%
+Campeche                                       368           0.25%
+Oaxaca                                         266           0.18%
+Aguascalientes                                 158           0.11%
+--------------------------------------------------------------------
+Total                                       147026         100.00%
+```
+
+
+El análisis del tamaño de las empresas, categorizado por el número de empleados, revela que la mayoría opera a pequeña escala, como se detalla a continuación:
+```bash
+Rango de Empleados              Cantidad
+0 a 10                            125256
+11 a 50                            17386
+51 a 250                            3592
+más de 250                           792
+```
+![Distribución de Empresas por Rango de Empleados](reports/figures/Distribución%20de%20Empresas%20por%20Rango%20de%20Empleados.png)
+
+***Archivo: 3_eda.ipynb***
+
+### **Formulación y prueba de hipótesis**:
+
+##### **Hipótesis 1:**
+- *H0: No hay diferencia significativa entre el promedio de empresas por estado en el norte vs sur.*
+- *H1: Hay diferencia significativa.*
+
+```bash
+Promedio de empresas en estados del Norte: 5429.50
+Promedio de empresas en estados del Sur: 2315.78
+Estadístico t: 1.61
+Valor p: 0.130
+
+El valor p es mayor que el nivel de significancia (0.05).
+No rechazamos la hipótesis nula (H0).
+No hay evidencia suficiente para afirmar una diferencia significativa en el promedio de empresas por estado entre el Norte y el Sur.
+```
+Aunque observas que el promedio de empresas en el Norte (aproximadamente 5,430) es más del doble que en el Sur (aproximadamente 2,316), esta diferencia **no es estadísticamente significativa** a un nivel de confianza del 95% (alpha = 0.05). Esto quiere decir que, con los datos que tienes, la diferencia que ves podría ser simplemente producto del azar.
+
+En términos prácticos, no podemos concluir que las regiones Norte y Sur de México tengan inherentemente un número promedio diferente de empresas por estado basándonos en esta muestra. Es posible que necesites más datos, un enfoque diferente, o que la variabilidad dentro de cada grupo de estados sea demasiado alta como para detectar una diferencia con esta cantidad de información.
+
+##### **Intervalos de confianza**
+Con el fin de realizar inferencias más robustas sobre el promedio de empresas por región o sector, se procederá a calcular un intervalo de confianza del 95%. Este intervalo nos ofrecerá un rango de valores dentro del cual podemos estar 95% seguros de que se encuentra la media real.
+```bash
+--- Intervalo de Confianza del 95% para el Promedio de Empresas por Estado (Norte) ---
+Promedio observado (Norte): 5429.50
+Número de estados (Norte): 10
+Intervalo de Confianza: (1558.14, 9300.86)
+
+--- Intervalo de Confianza del 95% para el Promedio de Empresas por Estado (Sur) ---
+Promedio observado (Sur): 2315.78
+Número de estados (Sur): 9
+Intervalo de Confianza: (263.30, 4368.26)
+```
+Los dos intervalos de confianza muestran una superposición considerable, especialmente en el rango de 1558 a 4368. Esta coincidencia visual refuerza la conclusión de nuestra prueba t: al 95% de confianza, no podemos afirmar que el promedio de empresas por estado sea realmente diferente entre las regiones Norte y Sur. Cualquier distinción aparente podría atribuirse a la variabilidad aleatoria de los datos.
+
+##### **Hipótesis 2**:
+- *H0: El tamaño de las empresas es independiente del sector económico.*  
+```bash
+El valor p es menor que el nivel de significancia (0.05).
+Rechazamos la hipótesis nula (H0).
+Existe una relación significativa entre el tamaño de las empresas y el sector económico.
+```
+¡Este es un resultado significativo! Al rechazar la hipótesis nula, estás afirmando que el tamaño de las empresas (según tu rango_de_empleados) **NO es independiente del sector económico (giro o scian)**.
+
+En otras palabras, existe una **asociación estadísticamente significativa** entre el tamaño de una empresa y el sector económico al que pertenece. Esto sugiere que ciertos sectores económicos tienden a tener empresas de tamaños específicos (por ejemplo, quizás el sector de servicios tiende a tener más empresas pequeñas, mientras que la manufactura podría tener más empresas grandes, o viceversa).
+
+##### **Intervalos de confianza**
+```bash
+--- Intervalo de Confianza del 95% para la Proporción de Empresas '0 a 10' en el sector 'restaurante' ---
+Proporción observada: 0.9676
+Número total de empresas en el sector 'restaurante': 2901
+Intervalo de Confianza: (0.9612, 0.9740)
+```
+
+El intervalo de confianza del 95% para la proporción de empresas pequeñas (0 a 10 empleados) en el sector de la restauración es notablemente estrecho: (0.9612, 0.9740). Al ser cercano a 1 (o 100%), este resultado confirma contundentemente lo que ya indicaba la prueba de chi-cuadrado: la gran mayoría de las empresas en el sector de la restauración son pequeñas, demostrando una fuerte relación entre el tamaño de la empresa y este sector económico
 
 ---
 
