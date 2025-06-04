@@ -11,7 +11,7 @@
 - [📈 Conclusiones y Recomendaciones](#-conclusiones-y-recomendaciones)
 - [🛠️ Tecnologías](#-tecnologías)
 - [⚙️ Instalación](#-instalación)
-- [👤 Autores](#-autores)
+- [👤 Autor](#-autor)
 
 ---
 
